@@ -42,7 +42,7 @@ module ::ActionController
       @request.request_parameters
     end
   
-    def rewrite_url_with_facebooker(*args)
+    def rewrite_with_facebooker(*args)
       options = args.first.is_a?(Hash) ? args.first : args.last
       is_link_to_canvas = link_to_canvas?(@request.request_parameters, options)
       if is_link_to_canvas && !options.has_key?(:host)
@@ -50,11 +50,11 @@ module ::ActionController
       end 
       options.delete(:canvas)
       Facebooker.request_for_canvas(is_link_to_canvas) do
-        rewrite_url_without_facebooker(*args)
+        rewrite_without_facebooker(*args)
       end
     end
     
-    alias_method_chain :rewrite_url, :facebooker
+    alias_method_chain :rewrite, :facebooker
 
   end
 end

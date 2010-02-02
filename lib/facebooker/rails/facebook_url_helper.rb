@@ -85,14 +85,12 @@ module ActionView
 
       alias_method_chain :button_to, :facebooker
 
-      private
-
 	# Altered to throw an error on :popup and sanitize the javascript
 	# for Facebook.
-        def convert_options_to_javascript_with_facebooker!(html_options, url ='')
+        def convert_options_to_data_attributes_with_facebooker(html_options, url ='')
           if !respond_to?(:request_comes_from_facebook?) || !request_comes_from_facebook?
             convert_options_to_javascript_without_facebooker!(html_options,url)
-   	      else
+          else
             confirm, popup = html_options.delete("confirm"), html_options.delete("popup")
 
             method, href = html_options.delete("method"), html_options['href']
@@ -103,14 +101,13 @@ module ActionView
               when method # or maybe (confirm and method)
                 "#{method_javascript_function(method, url, href, confirm)}return false;"
               when confirm # and only confirm
-                "#{confirm_javascript_function(confirm)}return false;"
+                "#{add_confirm_to_attributes!({}, confirm)}return false;"
               else
                 html_options["onclick"]
             end
- 	  end
+          end
         end
-
-	alias_method_chain :convert_options_to_javascript!, :facebooker
+        alias_method_chain :convert_options_to_data_attributes, :facebooker
 
 
 	# Overrides a private method that link_to calls via convert_options_to_javascript! and
@@ -124,7 +121,7 @@ module ActionView
 	# link_to("Facebooker", "http://rubyforge.org/projects/facebooker", :confirm=>"Go to Facebooker?")
 	# link_to("Facebooker", "http://rubyforge.org/projects/facebooker", :confirm=>{:title=>"the page says:, :content=>"Go to Facebooker?"})
 	# link_to("Facebooker", "http://rubyforge.org/projects/facebooker", :confirm=>{:title=>"the page says:, :content=>"Go to Facebooker?", :color=>"pink"})
-  def confirm_javascript_function_with_facebooker(confirm, fun = nil)
+  def add_confirm_to_attributes_with_facebooker!(confirm, fun = nil)
     if !respond_to?(:request_comes_from_facebook?) || !request_comes_from_facebook?
       confirm_javascript_function_without_facebooker(confirm)
     else
@@ -143,7 +140,7 @@ module ActionView
 	  end
   end
 
-	alias_method_chain :confirm_javascript_function, :facebooker
+	alias_method_chain :add_confirm_to_attributes!, :facebooker
 
 	def convert_options_to_css(options)
 	  key_pair = options.shift
@@ -156,7 +153,7 @@ module ActionView
 
 	# Dynamically creates a form for link_to with method.  Calls confirm_javascript_function if and 
 	# only if (confirm && method) for link_to
-        def method_javascript_function_with_facebooker(method, url = '', href = nil, confirm = nil)
+        def add_method_to_attributes_with_facebooker!(method, url = '', href = nil, confirm = nil)
           if !respond_to?(:request_comes_from_facebook?) || !request_comes_from_facebook?
             method_javascript_function_without_facebooker(method,url,href)
  	  else
@@ -184,7 +181,7 @@ module ActionView
           end
 	end
 
-	alias_method_chain :method_javascript_function, :facebooker
+	alias_method_chain :add_method_to_attributes!, :facebooker
 
     end
   end
