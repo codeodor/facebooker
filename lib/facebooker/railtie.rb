@@ -2,7 +2,10 @@ module Facebooker
   class Railtie < Rails::Railtie
     railtie_name 'facebooker'
     
-    require 'facebooker'
+    initializer 'facebooker.load_confirguration' do |app|
+      facebook_config = "#{RAILS_ROOT}/config/facebooker.yml"
+      FACEBOOKER = Facebooker.load_configuration(facebook_config)
+    end
     
     initializer 'facebooker.require_rails_libraries' do |app|
       require 'net/http_multipart_post'
@@ -21,11 +24,6 @@ module Facebooker
         #require 'facebooker/rails/extensions/action_view'
         require 'facebooker/rails/extensions/routing'
       end
-    end
-    
-    initializer 'facebooker.load_confirguration' do |app|
-      facebook_config = "#{RAILS_ROOT}/config/facebooker.yml"
-      FACEBOOKER = Facebooker.load_configuration(facebook_config)
     end
     
     initializer 'facebooker.set_logger' do |app|
