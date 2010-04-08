@@ -87,27 +87,27 @@ module ActionView
 
 	# Altered to throw an error on :popup and sanitize the javascript
 	# for Facebook.
-        def convert_options_to_data_attributes_with_facebooker(html_options, url ='')
-          if !respond_to?(:request_comes_from_facebook?) || !request_comes_from_facebook?
-            convert_options_to_javascript_without_facebooker!(html_options,url)
-          else
-            confirm, popup = html_options.delete("confirm"), html_options.delete("popup")
-
-            method, href = html_options.delete("method"), html_options['href']
-
-            html_options["onclick"] = case
-              when popup
-                raise ActionView::ActionViewError, "You can't use :popup"
-              when method # or maybe (confirm and method)
-                "#{method_javascript_function(method, url, href, confirm)}return false;"
-              when confirm # and only confirm
-                "#{add_confirm_to_attributes!({}, confirm)}return false;"
-              else
-                html_options["onclick"]
-            end
-          end
-        end
-        alias_method_chain :convert_options_to_data_attributes, :facebooker
+        # def convert_options_to_data_attributes_with_facebooker(html_options, url ='')
+        #           if !respond_to?(:request_comes_from_facebook?) || !request_comes_from_facebook?
+        #             convert_options_to_javascript_without_facebooker!(html_options,url)
+        #           else
+        #             confirm, popup = html_options.delete("confirm"), html_options.delete("popup")
+        # 
+        #             method, href = html_options.delete("method"), html_options['href']
+        # 
+        #             html_options["onclick"] = case
+        #               when popup
+        #                 raise ActionView::ActionViewError, "You can't use :popup"
+        #               when method # or maybe (confirm and method)
+        #                 "#{method_javascript_function(method, url, href, confirm)}return false;"
+        #               when confirm # and only confirm
+        #                 "#{add_confirm_to_attributes!({}, confirm)}return false;"
+        #               else
+        #                 html_options["onclick"]
+        #             end
+        #           end
+        #         end
+        #         alias_method_chain :convert_options_to_data_attributes, :facebooker
 
 
 	# Overrides a private method that link_to calls via convert_options_to_javascript! and
