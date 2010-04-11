@@ -1,7 +1,5 @@
 module Facebooker
   class Railtie < Rails::Railtie
-    railtie_name 'facebooker'
-    
     initializer 'facebooker.load_confirguration' do |app|
       facebook_config = "#{Rails.root}/config/facebooker.yml"
       FACEBOOKER = Facebooker.load_configuration(facebook_config)
