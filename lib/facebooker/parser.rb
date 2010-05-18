@@ -795,7 +795,7 @@ module Facebooker
     end
   end
 
-  def NoteCreate < Parser
+  class NoteCreate < Parser
     def self.process(data)
       element('notes_create_response', data).content.strip
     end
@@ -951,7 +951,6 @@ module Facebooker
       'facebook.dashboard.publishActivity' => DashboardPublishActivity,
       'facebook.dashboard.removeActivity' => DashboardRemoveActivity,
       'facebook.dashboard.getActivity' => DashboardGetActivity,
-      'facebook.intl.uploadNativeStrings' => UploadNativeStrings,
       'facebook.notes.create' => NoteCreate
     }
   end
