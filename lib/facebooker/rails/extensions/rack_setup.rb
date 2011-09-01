@@ -2,7 +2,7 @@
 require 'rack/facebook'
 require 'rack/facebook_session'
 
-Rails::Application.middleware.insert_before( 
+Rails.application.middleware.insert_before( 
   ActionDispatch::ParamsParser,
   Rack::Facebook
 )

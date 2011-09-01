@@ -795,11 +795,11 @@ module Facebooker
         end
       end
 
-      def token_tag
+      def token_tag(arg)
         unless protect_against_forgery?
-          ''
+          return ''
         else
-          tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token)
+          return tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token)
         end
       end
 

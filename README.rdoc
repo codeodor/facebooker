@@ -1,3 +1,5 @@
+= This is a fork I created to make it work on a specific Rails 3.1 project, with limited functionality needed. It may or may not work for you. Probably not, nor is it intended to.
+
 = Facebooker
 
 * http://facebooker.rubyforge.org
